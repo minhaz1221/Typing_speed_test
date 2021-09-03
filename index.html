@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Typing speed test Project</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            background: #2f3542;
+            height: 100vh;
+        }
+        .content {
+            color: white;
+            width: 500px;
+            text-align: center;
+        }
+        .gameHeading h1 {
+            background: #747d8c;
+            padding: 15px;
+            margin: 0;
+            text-align: center;
+            color: white;
+        }
+        #inpt {
+            width: 80%;
+            height: 40px;
+            outline: none;
+            font-size: 25px;
+            padding-left: 10px;
+        }
+        #randomWord {
+            font-size: 60px;
+        }
+        .counter {
+            font-size: 22px;
+            display: flex;
+            justify-content: space-around;
+            padding-top: 20px;
+        }
+        #wordStatus {
+            font-size: 25px;
+        }
+        #result {
+            font-size: 23px;
+        }
+        #btn {
+            padding: 10px 20px;
+            font-size: 22px;
+            outline: none;
+            border: none;
+            border-radius: 5px;
+            background: darkgreen;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="gameHeading">
+        <h1>Typing Speed Test Game</h1>
+    </div>
+    <div class="container">
+        <div class="content">
+            <p>Type the Given Word</p>
+            <h1 id="randomWord"></h1>
+            <input type="text" placeholder="Type Here..." autocomplete="off" id="inpt">
+            <p id="wordStatus">Click start button to start the game</p>
+            <div class="counter">
+                <p class="count">word :<span id="count">0</span></p>
+                <p class="time">Time :<span id="time">60</span></p>
+            </div>
+
+            <p id="result"></p>
+            <input type="button" id="btn" value="start">
+            
+        </div>
+    </div>
+
+    <script>
+        //DOM Selection
+        let randomWordDisplay = document.querySelector("#randomWord");
+        let input = document.querySelector("#inpt");
+        let wordStatus = document.querySelector("#wordStatus");
+        let wordCountDisplay = document.querySelector("#count");
+        let timeDisplay = document.querySelector("#time");
+        let result = document.querySelector('#result');
+        let button = document.querySelector('#btn');
+
+        var time = 60;
+        var wordCount = 0;
+        var startTimer;
+        var wordlist = [
+            'anonimous',
+            'function',
+            'javascript',
+            'python',
+            'inherit',
+            'transition',
+            'theme',
+            'plugin',
+            'microsoft',
+            'google',
+            'yahoo',
+            'mailchimp',
+            'woocommerce',
+            'newspaper',
+            'walton',
+            'fiveer',
+            'upwork',
+            'quick',
+            'brown',
+            'powderblue',
+            'lightgreen',
+            'components',
+            'windows',
+            'kalilinux',
+            'package',
+            'dependence',
+            'github',
+            'facebook',
+            'environment',
+            'failed',
+            'retrying',
+            'terminal',
+            'problem',
+            'console'
+        ]
+
+        window.addEventListener('load', showWord);
+
+        //Starting Game on click button field
+        button.addEventListener('click', () => {
+            startTimer = setInterval(timer,1000);
+            input.focus();
+            // button.disabled = true;
+            button.style.opacity = '0.5';
+            wordStatus.innerHTML = 'Start Typing...'
+            if(time == 0){
+                showWord();
+                input.value = '';
+                time = 60;
+                wordCount = 0;
+                input.disabled = false;
+                timeDisplay.innerHTML = '60';
+                wordCountDisplay.innerHTML = '0';
+                wordStatus.innerHTML = 'Start Typing...';
+                input.focus();
+                result.style.visibility = 'hidden';
+
+            }
+        });
+        input.addEventListener('keyup', () => {
+            startMacth();
+        });
+
+        //Matching Word from Input
+        function startMacth(){
+            if(input.value == randomWordDisplay.innerHTML) {
+                wordCount++;
+                wordCountDisplay.innerHTML = wordCount;
+                input.value = '';
+                wordStatus.innerHTML = 'Correct!!'
+                showWord();
+            }
+            else {
+                wordStatus.innerHTML = '';
+            }
+        }
+
+        //pick and show random word
+        function showWord(){
+            //generate random array index
+            var randIndx = Math.floor(Math.random()* wordlist.length);
+            //output random word
+            randomWordDisplay.innerHTML = wordlist[randIndx];
+        }
+
+        //timer function
+        function timer() {
+            if(time > 0){
+                time--;
+                timeDisplay.innerHTML = time;
+            }
+            else if(time == 0){
+                wordStatus.innerHTML = 'Game is Over!!!'
+                input.disabled = true;
+                result.style.visibility = 'visible';
+                result.innerHTML = `Your typing speed is ${wordCount} word per minute`;
+                button.disabled = false;
+                button.style.opacity = '1';
+                clearInterval(startTimer);
+                
+            }
+        }
+        
+    </script>
+</body>
+</html>
