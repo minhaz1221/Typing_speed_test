@@ -144,7 +144,7 @@
         button.addEventListener('click', () => {
             startTimer = setInterval(timer,1000);
             input.focus();
-            // button.disabled = true;
+            button.disabled = true;
             button.style.opacity = '0.5';
             wordStatus.innerHTML = 'Start Typing...'
             if(time == 0){
