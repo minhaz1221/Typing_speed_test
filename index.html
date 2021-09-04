@@ -39,6 +39,9 @@
             font-size: 25px;
             padding-left: 10px;
         }
+        #inpt:hover {
+            cursor: no-drop;
+        }
         #randomWord {
             font-size: 60px;
         }
@@ -53,6 +56,9 @@
         }
         #result {
             font-size: 23px;
+        }
+        .hScore {
+            font-size: 20px;
         }
         #btn {
             padding: 10px 20px;
@@ -75,7 +81,7 @@
         <div class="content">
             <p>Type the Given Word</p>
             <h1 id="randomWord"></h1>
-            <input type="text" placeholder="Type Here..." autocomplete="off" id="inpt">
+            <input type="text" placeholder="Type Here..." autocomplete="off" disabled id="inpt">
             <p id="wordStatus">Click start button to start the game</p>
             <div class="counter">
                 <p class="count">word :<span id="count">0</span></p>
@@ -84,6 +90,7 @@
 
             <p id="result"></p>
             <input type="button" id="btn" value="start">
+            <p class="hScore">Highest Score : <span id="hScore">0</span> </p>
             
         </div>
     </div>
@@ -97,6 +104,7 @@
         let timeDisplay = document.querySelector("#time");
         let result = document.querySelector('#result');
         let button = document.querySelector('#btn');
+        let higstScore = document.querySelector('#hScore');
 
         var time = 60;
         var wordCount = 0;
@@ -143,16 +151,17 @@
         //Starting Game on click button field
         button.addEventListener('click', () => {
             startTimer = setInterval(timer,1000);
+            input.disabled = false;
             input.focus();
             button.disabled = true;
             button.style.opacity = '0.5';
             wordStatus.innerHTML = 'Start Typing...'
+            input.style.cursor = 'text';
             if(time == 0){
                 showWord();
                 input.value = '';
                 time = 60;
                 wordCount = 0;
-                input.disabled = false;
                 timeDisplay.innerHTML = '60';
                 wordCountDisplay.innerHTML = '0';
                 wordStatus.innerHTML = 'Start Typing...';
@@ -200,6 +209,10 @@
                 result.innerHTML = `Your typing speed is ${wordCount} word per minute`;
                 button.disabled = false;
                 button.style.opacity = '1';
+                input.style.cursor = 'no-drop';
+                if(wordCount > higstScore.innerHTML){
+                    higstScore.innerHTML = wordCount;
+                }
                 clearInterval(startTimer);
                 
             }
