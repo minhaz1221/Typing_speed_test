@@ -109,86 +109,24 @@
         var time = 60;
         var wordCount = 0;
         var startTimer;
-        var wordlist = [
-            'anonimous',
-            'function',
-            'javascript',
-            'python',
-            'inherit',
-            'transition',
-            'theme',
-            'plugin',
-            'microsoft',
-            'google',
-            'yahoo',
-            'mailchimp',
-            'woocommerce',
-            'newspaper',
-            'walton',
-            'fiverr',
-            'upwork',
-            'quick',
-            'brown',
-            'powderblue',
-            'lightgreen',
-            'components',
-            'windows',
-            'kalilinux',
-            'package',
-            'dependence',
-            'github',
-            'facebook',
-            'environment',
-            'failed',
-            'retrying',
-            'terminal',
-            'problem',
-            'console',
-            'work',
-            'destination',
-            'animation',
-            'blender',
-            'react',
-            'node',
-            'karnel',
-            'component',
-            'hooks',
-            'props',
-            'homeless',
-            'shelterless',
-            'meaningful',
-            'destroy',
-            'bangladesh',
-            'interval',
-            'powerpoint',
-            'database',
-            'important',
-            'samsung',
-            'matrix',
-            'vector',
-            'commit',
-            'education',
-            'graduation',
-            'pillow',
-            'insret',
-            'calculator',
-            'extenssion',
-            'bookmark',
-            'educavo',
-            'industries',
-            'ingrediant',
-            'nutration',
-            'optional',
-            'description',
-            'extended',
-            'update',
-            'branch',
-            'create',
-            'request',
-            'change',
-        ]
 
-        window.addEventListener('load', showWord);
+        const WordApi = () => {
+            fetch('https://random-word-api.herokuapp.com/word')
+        .then((res) => {
+            if(!res.ok){
+                throw new Error(`There are may some problem with api. Please contact with your api provider`)
+            }
+            return res.json()
+        })
+        .then((word) => {
+            randomWordDisplay.innerHTML = word;
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        }
+
+        window.addEventListener('load', WordApi);
 
         //Starting Game on click button field
         button.addEventListener('click', () => {
@@ -200,7 +138,7 @@
             wordStatus.innerHTML = 'Start Typing...'
             input.style.cursor = 'text';
             if(time == 0){
-                showWord();
+                WordApi();
                 input.value = '';
                 time = 60;
                 wordCount = 0;
@@ -223,19 +161,11 @@
                 wordCountDisplay.innerHTML = wordCount;
                 input.value = '';
                 wordStatus.innerHTML = 'Correct!!'
-                showWord();
+                WordApi();
             }
             else {
                 wordStatus.innerHTML = '';
             }
-        }
-
-        //pick and show random word
-        function showWord(){
-            //generate random array index
-            var randIndx = Math.floor(Math.random()* wordlist.length);
-            //output random word
-            randomWordDisplay.innerHTML = wordlist[randIndx];
         }
 
         //timer function
