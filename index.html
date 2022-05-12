@@ -118,6 +118,7 @@
         let button = document.querySelector('#btn');
         let higstScore = document.querySelector('#hScore');
         let capsLockIdicator = document.querySelector(".cpsl");
+        var audio = new Audio("ES_Beeps Computer Readout 1 - SFX Producer.mp3");
 
         var time = 60;
         var wordCount = 0;
@@ -1077,6 +1078,8 @@
             }
             else {
                 capsLockIdicator.style.display = 'none';
+                audio.currentTime = 0
+                audio.play();
                 startMacth();
             }
             
